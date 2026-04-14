@@ -22,6 +22,3 @@ Script em Python que organiza e mescla arquivos em PDF em um único arquivo de f
 - Automação com Python
 - Uso de bibliotecas externas
 - Manipulação de arquivos
-
-## Autor
-João Vitor Macedo Gonçalves
