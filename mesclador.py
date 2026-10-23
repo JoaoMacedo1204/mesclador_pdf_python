@@ -1,29 +1,50 @@
-#Antes de executar esse script,
-#crie uma pasta chamada "arquivos", e adicione à ela os PDFs que deseja mesclar.
-#Execute o programa pelo terminal dentro da pasta do projeto
+# Antes de executar este script, crie uma pasta chamada "arquivos"
+# e coloque nela os PDFs que deseja mesclar.
+# Execute o programa pelo terminal dentro da pasta do projeto.
 
-#bilbioteca pra manipular PDFs
+# Biblioteca para manipular PDFs.
 import PyPDF2
 
-#biblioteca para manipular arquivos
+# Biblioteca para manipular arquivos e diretórios.
 import os
 
-#cria-se o mesclador
-mesclador = PyPDF2.PdfMerger()
+# Verifica se a pasta existe antes de listar os arquivos.
+if not os.path.isdir("arquivos"):
+    print('Crie uma pasta chamada "arquivos" e coloque os PDFs nela.')
+    raise SystemExit
 
-#cria-se o diretorio da lista de arquivos e organiza por ordem
+# Lista os arquivos da pasta e ordena pelo nome.
 lista_arquivos = os.listdir("arquivos")
 lista_arquivos.sort()
 
-#percorrre os arquivos da lista
+# Seleciona apenas arquivos PDF, ignorando pastas.
+arquivos_pdf = []
+
 for arquivo in lista_arquivos:
-  #analisa se a extensao do arquivo é pdf
-  if arquivo.endswith(".pdf"):
-    #adiciona o arquivo no mesclador
+    if arquivo.lower().endswith(".pdf") and os.path.isfile(f"arquivos/{arquivo}"):
+        arquivos_pdf.append(arquivo)
+
+# Encerra se nenhum PDF foi encontrado.
+if not arquivos_pdf:
+    print('Nenhum PDF encontrado na pasta "arquivos".')
+    raise SystemExit
+
+# Evita substituir um resultado anterior.
+if os.path.exists("pdfs_mesclados.pdf"):
+    print('O arquivo "pdfs_mesclados.pdf" já existe.')
+    print("Renomeie ou mova esse arquivo antes de executar novamente.")
+    raise SystemExit
+
+# Cria o mesclador após verificar os arquivos e o destino.
+mesclador = PyPDF2.PdfMerger()
+
+# Adiciona os PDFs selecionados ao mesclador.
+for arquivo in arquivos_pdf:
     mesclador.append(f"arquivos/{arquivo}")
 
-#escreve/cria um novo arquivo com os PDSs mesclados
+# Salva o resultado e libera os recursos do mesclador.
 mesclador.write("pdfs_mesclados.pdf")
-
-#encerra o processo
 mesclador.close()
+
+print(f"{len(arquivos_pdf)} PDFs mesclados com sucesso!")
+print('Resultado salvo em "pdfs_mesclados.pdf".')
