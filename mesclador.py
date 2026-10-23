@@ -1,3 +1,7 @@
+#Antes de executar esse script,
+#crie uma pasta chamada "arquivos", e adicione à ela os PDFs que deseja mesclar.
+#Execute o programa pelo terminal dentro da pasta do projeto
+
 #bilbioteca pra manipular PDFs
 import PyPDF2
 
